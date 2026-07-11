@@ -1,0 +1,621 @@
+/* style.css - Complete Futuristic Version */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* --- Dark Mode Body --- */
+body.dark-mode {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+}
+
+body.dark-mode .container {
+    background: rgba(20, 20, 40, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 60px rgba(138, 43, 226, 0.2);
+}
+
+/* --- Floating Hearts --- */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    font-size: 22px;
+    animation: floatUp linear infinite;
+    opacity: 0.5;
+    user-select: none;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.7; }
+    100% { transform: translateY(-110vh) rotate(720deg) scale(0.3); opacity: 0; }
+}
+
+/* --- Container --- */
+.container {
+    max-width: 680px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 25px;
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    font-size: 2rem;
+}
+
+/* --- Memory Lane --- */
+.memory-lane {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.memory-lane h3 {
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.memory-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 5px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+
+.memory-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+.memory-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+}
+
+.memory-card {
+    min-width: 100px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    white-space: nowrap;
+    cursor: default;
+    transition: transform 0.2s;
+}
+.memory-card:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Mode Toggle --- */
+.mode-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.mode-toggle button {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.5);
+    color: #333;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.mode-toggle button.active {
+    background: #fff;
+    color: #f5576c;
+    transform: scale(1.05);
+}
+.mode-toggle button.friendship-active {
+    background: #fff;
+    color: #4facfe;
+    transform: scale(1.05);
+}
+
+/* --- Calculator --- */
+.calculator-section {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    padding: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+.calculator-section h2 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+.calculator-section input, 
+.calculator-section select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s;
+}
+.calculator-section input:focus,
+.calculator-section select:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    background: #fff;
+}
+
+#calculateBtn {
+    padding: 12px 45px;
+    border: none;
+    border-radius: 50px;
+    background: #f5576c;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 15px 0 10px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+}
+#calculateBtn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(245, 87, 108, 0.6);
+}
+
+#flamesResult {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-top: 5px;
+    opacity: 0.9;
+    min-height: 30px;
+}
+#zodiacBonusDisplay {
+    font-size: 0.9rem;
+    color: #fff;
+    opacity: 0.8;
+    margin-top: 5px;
+    min-height: 25px;
+}
+
+/* --- Chat --- */
+.chat-section {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    padding: 18px;
+}
+.chat-section h3 {
+    color: #fff;
+    margin-bottom: 12px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+#typingIndicator {
+    padding: 5px 15px;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+    font-size: 0.85rem;
+    min-height: 25px;
+}
+
+.chat-messages {
+    height: 220px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+.chat-messages .message {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 14px;
+    border-radius: 18px;
+    max-width: 80%;
+    word-wrap: break-word;
+    color: #333;
+    align-self: flex-start;
+    animation: fadeIn 0.3s ease;
+}
+.chat-messages .message.own {
+    align-self: flex-end;
+    background: #f5576c;
+    color: white;
+}
+.chat-messages .message .username {
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+    opacity: 0.8;
+}
+.chat-messages .message .time {
+    font-size: 0.6rem;
+    opacity: 0.6;
+    margin-left: 8px;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.chat-input-area input {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+}
+.chat-input-area input:first-child {
+    flex: 0.3;
+    min-width: 80px;
+}
+.chat-input-area button {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #4facfe, #00c6fb);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.chat-input-area button:hover {
+    transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Friendship Mode Overrides --- */
+.friendship-mode .calculator-section {
+    background: rgba(79, 172, 254, 0.2);
+}
+.friendship-mode #calculateBtn {
+    background: #4facfe;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+}
+.friendship-mode .chat-messages .message.own {
+    background: #4facfe;
+}
+
+/* --- Dark Mode Specific Overrides --- */
+body.dark-mode .calculator-section {
+    background: rgba(255, 255, 255, 0.05);
+}
+body.dark-mode .memory-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+body.dark-mode .calculator-section input,
+body.dark-mode .calculator-section select {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+body.dark-mode .mode-toggle button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+body.dark-mode .mode-toggle button.active {
+    background: #f5576c;
+    color: white;
+}
+body.dark-mode .mode-toggle button.friendship-active {
+    background: #4facfe;
+    color: white;
+}
+body.dark-mode .chat-messages .message {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ddd;
+}
+body.dark-mode .chat-messages .message.own {
+    background: #8b5cf6;
+    color: white;
+}
+body.dark-mode #calculateBtn {
+    background: #8b5cf6;
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+}
+body.dark-mode #loveRadarRing {
+    stroke: #8b5cf6;
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8));
+}
+/* --- Countdown Timer --- */
+.countdown-section {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.countdown-section h3 {
+    color: #fff;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.countdown-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 15px 20px;
+    min-width: 70px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s;
+}
+
+.countdown-item:hover {
+    transform: scale(1.05);
+}
+
+.countdown-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    line-height: 1.2;
+}
+
+.countdown-label {
+    display: block;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+/* Dark Mode Countdown */
+body.dark-mode .countdown-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .countdown-number {
+    color: #a78bfa;
+    text-shadow: 0 0 30px rgba(167, 139, 250, 0.4);
+}
+/* --- Special Days (Events) --- */
+.events-section {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.events-section h3 {
+    color: #fff;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.add-event-form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.add-event-form input {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    outline: none;
+    flex: 1;
+    min-width: 140px;
+}
+
+.add-event-form input:focus {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+    background: #fff;
+}
+
+.add-event-form button {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 50px;
+    background: #f5576c;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+    white-space: nowrap;
+}
+
+.add-event-form button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(245, 87, 108, 0.6);
+}
+
+/* Events Grid */
+.events-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.events-grid::-webkit-scrollbar {
+    width: 4px;
+}
+.events-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+.event-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 15px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    transition: transform 0.2s;
+}
+
+.event-card:hover {
+    transform: scale(1.01);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 120px;
+}
+
+.event-name {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.05rem;
+}
+
+.event-countdown {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.event-countdown-item {
+    text-align: center;
+    min-width: 45px;
+}
+
+.event-countdown-item .number {
+    display: block;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.event-countdown-item .label {
+    display: block;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.event-delete-btn {
+    background: rgba(255, 0, 0, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: #ff6b6b;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-delete-btn:hover {
+    background: rgba(255, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode .add-event-form input {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+body.dark-mode .event-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+body.dark-mode .add-event-form button {
+    background: #8b5cf6;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+body.dark-mode .event-countdown-item .number {
+    color: #a78bfa;
+    text-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+}

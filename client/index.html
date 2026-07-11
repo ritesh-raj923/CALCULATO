@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💕 Love & Friendship Hub</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <!-- Floating Hearts Container -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <div class="container" id="appContainer">
+        <!-- Header with Dark Mode Toggle -->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>💖 Relationship Hub</h1>
+            <button id="darkModeToggle" style="background: rgba(255,255,255,0.2); border: none; border-radius: 50px; padding: 10px 18px; color: white; font-size: 1.2rem; cursor: pointer; backdrop-filter: blur(5px);">🌙</button>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="mode-toggle">
+            <button id="loveModeBtn" class="active">💕 Love</button>
+            <button id="friendshipModeBtn">🤝 Friendship</button>
+        </div>
+
+        <!-- Calculator Section -->
+        <div class="calculator-section" id="calculatorSection">
+            <h2 id="calcTitle">💕 Love Calculator</h2>
+            
+            <!-- Name Inputs -->
+            <input type="text" id="name1" placeholder="Your Name" />
+            <input type="text" id="name2" placeholder="Partner's Name" />
+
+            <!-- Zodiac Dropdowns -->
+            <div style="display: flex; gap: 10px; margin: 10px 0;">
+                <select id="zodiac1" style="flex:1; padding: 12px; border-radius: 50px; border: none; background: rgba(255,255,255,0.85); font-size: 0.95rem; outline: none;">
+                    <option value="">🌟 Her Zodiac</option>
+                    <option value="aries">♈ Aries</option>
+                    <option value="taurus">♉ Taurus</option>
+                    <option value="gemini">♊ Gemini</option>
+                    <option value="cancer">♋ Cancer</option>
+                    <option value="leo">♌ Leo</option>
+                    <option value="virgo">♍ Virgo</option>
+                    <option value="libra">♎ Libra</option>
+                    <option value="scorpio">♏ Scorpio</option>
+                    <option value="sagittarius">♐ Sagittarius</option>
+                    <option value="capricorn">♑ Capricorn</option>
+                    <option value="aquarius">♒ Aquarius</option>
+                    <option value="pisces">♓ Pisces</option>
+                </select>
+
+                <select id="zodiac2" style="flex:1; padding: 12px; border-radius: 50px; border: none; background: rgba(255,255,255,0.85); font-size: 0.95rem; outline: none;">
+                    <option value="">🌟 Your Zodiac</option>
+                    <option value="aries">♈ Aries</option>
+                    <option value="taurus">♉ Taurus</option>
+                    <option value="gemini">♊ Gemini</option>
+                    <option value="cancer">♋ Cancer</option>
+                    <option value="leo">♌ Leo</option>
+                    <option value="virgo">♍ Virgo</option>
+                    <option value="libra">♎ Libra</option>
+                    <option value="scorpio">♏ Scorpio</option>
+                    <option value="sagittarius">♐ Sagittarius</option>
+                    <option value="capricorn">♑ Capricorn</option>
+                    <option value="aquarius">♒ Aquarius</option>
+                    <option value="pisces">♓ Pisces</option>
+                </select>
+            </div>
+
+            <button id="calculateBtn">✨ Calculate!</button>
+
+            <!-- Futuristic Love Radar (Circular Ring) -->
+            <div style="position: relative; width: 180px; height: 180px; margin: 20px auto;">
+                <svg width="180" height="180" viewBox="0 0 180 180">
+                    <!-- Background Ring -->
+                    <circle cx="90" cy="90" r="75" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="12" />
+                    <!-- Progress Ring (Fills up) -->
+                    <circle id="loveRadarRing" cx="90" cy="90" r="75" fill="none" stroke="#f5576c" stroke-width="12" 
+                        stroke-linecap="round" 
+                        stroke-dasharray="471.24" 
+                        stroke-dashoffset="471.24"
+                        style="transition: stroke-dashoffset 1.5s ease; filter: drop-shadow(0 0 15px rgba(245, 87, 108, 0.6));" />
+                </svg>
+                <!-- Percentage Text in Center -->
+                <div id="resultDisplay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 2.8rem; font-weight: bold; color: #fff; text-shadow: 0 0 20px rgba(245,87,108,0.5);">
+                    ❤️ 0%
+                </div>
+            </div>
+
+            <!-- Messages and Zodiac Info -->
+            <div id="flamesResult" style="font-size: 1.2rem; color: #fff; margin-top: 5px; opacity: 0.9; min-height: 30px;"></div>
+            <div id="zodiacBonusDisplay" style="font-size: 0.9rem; color: #fff; opacity: 0.8; margin-top: 5px; min-height: 25px;"></div>
+        </div>
+
+        <!-- Special Days Section -->
+        <div class="events-section">
+            <h3>📅 Our Special Days</h3>
+            
+            <!-- Add Event Form -->
+            <div class="add-event-form">
+                <input type="text" id="eventName" placeholder="Event name (e.g., Anniversary)" />
+                <input type="date" id="eventDate" />
+                <button id="addEventBtn">➕ Add Day</button>
+            </div>
+
+            <!-- Events List (Countdowns will appear here) -->
+            <div id="eventsList" class="events-grid">
+                <p style="color: rgba(255,255,255,0.6); text-align: center; padding: 20px;">
+                    Loading your special days... ❤️
+                </p>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <h3>💬 Live Chat</h3>
+            <!-- Typing Indicator -->
+            <div id="typingIndicator" style="display: none; padding: 5px 15px; color: rgba(255,255,255,0.6); font-style: italic; font-size: 0.85rem;">
+                💬 Someone is typing...
+            </div>
+            <div class="chat-messages" id="messages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="chatUsername" placeholder="Your Name" value="You" />
+                <input type="text" id="chatInput" placeholder="Type a message..." />
+                <button id="sendBtn">Send ❤️</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
