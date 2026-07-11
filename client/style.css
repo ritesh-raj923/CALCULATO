@@ -619,3 +619,58 @@ body.dark-mode .event-countdown-item .number {
     color: #a78bfa;
     text-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
 }
+/* --- Chat Checkboxes & Controls --- */
+
+.chat-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.message-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.message-checkbox {
+    accent-color: #f5576c;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.message-wrapper .message {
+    flex: 1;
+    margin: 0;
+}
+
+/* Selected message highlight */
+.message-wrapper.selected .message {
+    background: rgba(245, 87, 108, 0.3);
+    border: 1px solid #f5576c;
+}
+
+/* Dark mode overrides */
+body.dark-mode .message-checkbox {
+    accent-color: #8b5cf6;
+}
+
+body.dark-mode .message-wrapper.selected .message {
+    background: rgba(139, 92, 246, 0.3);
+    border: 1px solid #8b5cf6;
+}
+
+body.dark-mode .chat-controls button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+body.dark-mode .chat-controls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
