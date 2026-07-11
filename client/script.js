@@ -1,7 +1,7 @@
 // script.js - Futuristic Version
 
 // --- Socket Connection ---
-const socket = io('http://localhost:5000');
+const socket = io('https://love-backend-24ef.onrender.com/');
 
 // --- DOM Refs ---
 const messagesDiv = document.getElementById('messages');
@@ -268,7 +268,7 @@ chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessa
 // --- Load History ---
 async function loadHistory() {
     try {
-        const response = await fetch('http://localhost:5000/messages');
+        const response = await fetch('https://love-backend-24ef.onrender.com//messages');
         const messages = await response.json();
         messages.reverse().forEach(msg => {
             const msgEl = document.createElement('div');
@@ -474,7 +474,7 @@ async function addEvent() {
     }
 
     try {
-        const response = await fetch('http://localhost:5000/events', {
+        const response = await fetch('https://love-backend-24ef.onrender.com//events', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, eventDate: date })
@@ -500,7 +500,7 @@ async function deleteEvent(id) {
     if (!confirm('Remove this special day?')) return;
 
     try {
-        const response = await fetch(`http://localhost:5000/events/${id}`, {
+        const response = await fetch(`https://love-backend-24ef.onrender.com//events/${id}`, {
             method: 'DELETE'
         });
         const result = await response.json();
@@ -518,7 +518,7 @@ async function deleteEvent(id) {
 // Fetch all events from server
 async function fetchEvents() {
     try {
-        const response = await fetch('http://localhost:5000/events');
+        const response = await fetch('https://love-backend-24ef.onrender.com//events');
         const data = await response.json();
         eventsData = data;
         renderEvents(eventsData);
