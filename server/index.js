@@ -12,17 +12,18 @@ const server = http.createServer(app);
 // Socket.IO setup
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:3000",
+        origin: "https://love-frontend-t61k.onrender.com",
         methods: ["GET", "POST"]
     }
 });
 
-app.use(cors());
+app.use(cors({
+    origin: "https://love-frontend-t61k.onrender.com"
+}));
 app.use(express.json());
-
 // Connect to Neon database (TEMPORARY - for testing)
 const pool = new Pool({
-    connectionString: "postgresql://neondb_owner:npg_IiFQmsZxg57E@ep-divine-art-ao79aaqf-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
