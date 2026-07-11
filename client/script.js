@@ -220,15 +220,31 @@ function createFloatingHeart() {
 }
 setInterval(createFloatingHeart, 500);
 
-// --- Chat & Typing Indicator ---
 socket.on('chat message', (data) => {
-    const { username, message, timestamp } = data;
+    const { username, message, timestamp, id } = data;
+    
+    const wrapper = document.createElement('div');
+    wrapper.className = 'message-wrapper';
+    wrapper.dataset.messageId = id || Date.now(); // Use Date.now() as fallback
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'message-checkbox';
+    checkbox.addEventListener('change', updateSelectedCount);
+
     const msgEl = document.createElement('div');
     msgEl.classList.add('message');
     if (username === chatUsername.value.trim()) msgEl.classList.add('own');
+    
     const timeStr = timestamp ? new Date(timestamp).toLocaleTimeString() : new Date().toLocaleTimeString();
-    msgEl.innerHTML = `<div class="username">${escapeHtml(username)} <span class="time">${timeStr}</span></div><div>${escapeHtml(message)}</div>`;
-    messagesDiv.appendChild(msgEl);
+    msgEl.innerHTML = `
+        <div class="username">${escapeHtml(username)} <span class="time">${timeStr}</span></div>
+        <div>${escapeHtml(message)}</div>
+    `;
+
+    wrapper.appendChild(checkbox);
+    wrapper.appendChild(msgEl);
+    messagesDiv.appendChild(wrapper);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 });
 
@@ -271,12 +287,28 @@ async function loadHistory() {
         const response = await fetch('https://love-backend-24ef.onrender.com/messages');
         const messages = await response.json();
         messages.reverse().forEach(msg => {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'message-wrapper';
+            wrapper.dataset.messageId = msg.id;
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'message-checkbox';
+            checkbox.addEventListener('change', updateSelectedCount);
+
             const msgEl = document.createElement('div');
             msgEl.classList.add('message');
             if (msg.username === chatUsername.value.trim()) msgEl.classList.add('own');
+            
             const timeStr = new Date(msg.timestamp).toLocaleTimeString();
-            msgEl.innerHTML = `<div class="username">${escapeHtml(msg.username)} <span class="time">${timeStr}</span></div><div>${escapeHtml(msg.content)}</div>`;
-            messagesDiv.appendChild(msgEl);
+            msgEl.innerHTML = `
+                <div class="username">${escapeHtml(msg.username)} <span class="time">${timeStr}</span></div>
+                <div>${escapeHtml(msg.content)}</div>
+            `;
+
+            wrapper.appendChild(checkbox);
+            wrapper.appendChild(msgEl);
+            messagesDiv.appendChild(wrapper);
         });
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     } catch (err) { console.error(err); }
@@ -554,3 +586,79 @@ setInterval(updateEventCountdowns, 1000);
 
 // --- Initial fetch ---
 fetchEvents();
+// --- Chat Selection & Deletion ---
+
+// Update the selected count and show/hide delete button
+function updateSelectedCount() {
+    const checkboxes = document.querySelectorAll('.message-checkbox:checked');
+    const count = checkboxes.length;
+    const deleteBtn = document.getElementById('deleteSelectedBtn');
+    const countDisplay = document.getElementById('selectedCount');
+    
+    if (count > 0) {
+        deleteBtn.style.display = 'block';
+        deleteBtn.textContent = `🗑️ Delete Selected (${count})`;
+        countDisplay.textContent = `${count} selected`;
+    } else {
+        deleteBtn.style.display = 'none';
+        countDisplay.textContent = '0 selected';
+    }
+}
+
+// Select All / Deselect All
+document.getElementById('selectAllBtn').addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('.message-checkbox');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    
+    checkboxes.forEach(cb => {
+        cb.checked = !allChecked;
+    });
+    
+    updateSelectedCount();
+});
+
+// Delete Selected Messages
+// Delete Selected Messages
+document.getElementById('deleteSelectedBtn').addEventListener('click', async () => {
+    const selected = document.querySelectorAll('.message-checkbox:checked');
+    if (selected.length === 0) return;
+    
+    if (!confirm(`Delete ${selected.length} message(s)?`)) return;
+    
+    // Collect message IDs from the data attribute
+    const ids = Array.from(selected).map(cb => {
+        const wrapper = cb.closest('.message-wrapper');
+        return parseInt(wrapper.dataset.messageId);
+    });
+    
+    try {
+        const response = await fetch('https://love-backend-24ef.onrender.com/messages', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ids })
+        });
+        
+        if (response.ok) {
+            // Remove selected messages from DOM
+            selected.forEach(cb => {
+                const wrapper = cb.closest('.message-wrapper');
+                wrapper.remove();
+            });
+            updateSelectedCount();
+        } else {
+            const result = await response.json();
+            alert('Failed to delete messages: ' + (result.error || 'Unknown error'));
+        }
+    } catch (err) {
+        console.error('Error deleting messages:', err);
+        alert('Server error. Please try again.');
+    }
+});
+
+// Listen for messages-deleted event (sync across users)
+socket.on('messages-deleted', (data) => {
+    data.ids.forEach(id => {
+        const wrapper = document.querySelector(`.message-wrapper[data-message-id="${id}"]`);
+        if (wrapper) wrapper.remove();
+    });
+});
