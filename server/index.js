@@ -93,6 +93,30 @@ app.delete('/events/:id', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+// DELETE: Delete specific messages by IDs
+app.delete('/messages', async (req, res) => {
+    const { ids } = req.body;
+    
+    if (!ids || !ids.length) {
+        return res.status(400).json({ error: 'No message IDs provided' });
+    }
+
+    try {
+        // Create placeholders for the SQL query (e.g., $1, $2, $3, ...)
+        const placeholders = ids.map((_, i) => `$${i + 1}`).join(', ');
+        const query = `DELETE FROM messages WHERE id IN (${placeholders})`;
+        
+        await pool.query(query, ids);
+        
+        // Broadcast to all clients that messages were deleted
+        io.emit('messages-deleted', { ids });
+        
+        res.json({ success: true, deletedCount: ids.length });
+    } catch (err) {
+        console.error('Error deleting messages:', err.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+});
 // server/index.js - Replace the io.on('connection') section with this
 
 io.on('connection', (socket) => {
