@@ -124,25 +124,28 @@ io.on('connection', (socket) => {
 
     // --- Existing: Chat message ---
     socket.on('chat message', async (data) => {
-        const { username, message } = data;
-        console.log(`📩 ${username}: ${message}`);
+    const { username, message } = data;
+    console.log(`📩 ${username}: ${message}`);
 
-        try {
-            await pool.query(
-                'INSERT INTO messages (username, content) VALUES ($1, $2)',
-                [username, message]
-            );
-        } catch (err) {
-            console.error('❌ Failed to save:', err.message);
-        }
+    let newMessageId = null;
 
-        io.emit('chat message', {
-            username,
-            message,
-            timestamp: new Date()
-        });
+    try {
+        const result = await pool.query(
+            'INSERT INTO messages (username, content) VALUES ($1, $2) RETURNING id',
+            [username, message]
+        );
+        newMessageId = result.rows[0].id; // Get the ID of the inserted message
+    } catch (err) {
+        console.error('❌ Failed to save:', err.message);
+    }
+
+    io.emit('chat message', {
+        id: newMessageId,        // ← ADD THIS
+        username,
+        message,
+        timestamp: new Date()
     });
-
+});
     // --- NEW: Typing Indicator ---
     socket.on('typing', (username) => {
         // Broadcast to everyone EXCEPT the sender that someone is typing
