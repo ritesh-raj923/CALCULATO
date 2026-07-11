@@ -111,21 +111,34 @@
             </div>
         </div>
 
-        <!-- Chat Section -->
-        <div class="chat-section">
-            <h3>💬 Live Chat</h3>
-            <!-- Typing Indicator -->
-            <div id="typingIndicator" style="display: none; padding: 5px 15px; color: rgba(255,255,255,0.6); font-style: italic; font-size: 0.85rem;">
-                💬 Someone is typing...
-            </div>
-            <div class="chat-messages" id="messages"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chatUsername" placeholder="Your Name" value="You" />
-                <input type="text" id="chatInput" placeholder="Type a message..." />
-                <button id="sendBtn">Send ❤️</button>
-            </div>
-        </div>
+<!-- Chat Section -->
+<div class="chat-section">
+    <h3>💬 Live Chat</h3>
+    
+    <!-- Typing Indicator -->
+    <div id="typingIndicator" style="display: none; padding: 5px 15px; color: rgba(255,255,255,0.6); font-style: italic; font-size: 0.85rem;">
+        💬 Someone is typing...
     </div>
+    
+    <!-- Chat Controls -->
+    <div class="chat-controls" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center; flex-wrap: wrap;">
+        <button id="selectAllBtn" style="padding: 6px 15px; border: none; border-radius: 50px; background: rgba(255,255,255,0.2); color: #fff; cursor: pointer; font-size: 0.85rem;">
+            ☑️ Select All
+        </button>
+        <button id="deleteSelectedBtn" style="padding: 6px 15px; border: none; border-radius: 50px; background: rgba(255,0,0,0.3); color: #fff; cursor: pointer; font-size: 0.85rem; display: none;">
+            🗑️ Delete Selected (0)
+        </button>
+        <span id="selectedCount" style="color: rgba(255,255,255,0.6); font-size: 0.85rem;">0 selected</span>
+    </div>
+
+    <div class="chat-messages" id="messages"></div>
+    
+    <div class="chat-input-area">
+        <input type="text" id="chatUsername" placeholder="Your Name" value="You" />
+        <input type="text" id="chatInput" placeholder="Type a message..." />
+        <button id="sendBtn">Send ❤️</button>
+    </div>
+</div>
 
     <script src="script.js"></script>
 </body>
